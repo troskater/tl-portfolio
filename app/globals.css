@@ -45,6 +45,8 @@ body {
 }
 
 body {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  font-weight: 300;
   color: var(--font-color);
   background: #000;
   display: flex;
@@ -52,17 +54,18 @@ body {
   align-items: center;
   background: url("/img/ep_naturalblack.png") repeat;
 
-  &:after {
+  &:before {
     content: '';
     background: url("/img/ep_naturalblack.png") repeat;
     height: 300%;
     left: -50%;
-    opacity: 0.22;
+    opacity: 1;
+    /* opacity: 0.22; */
     position: fixed;
     top: -110%;
     width: 300%;
     animation: grain 8s steps(10) infinite;
-    /* z-index:-1; */
+    z-index: -1;
     pointer-events: none;
   }
 
@@ -131,10 +134,10 @@ h4 {
 main {
   width: 100%;
   overflow-y: scroll;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
 
   &>* {
-    max-width: 860px;
+    max-width: 900px;
     margin: 0 auto;
   }
 }
@@ -177,6 +180,7 @@ main {
   & a {
     text-decoration: none;
     text-transform: uppercase;
+    font-weight: normal;
 
     &:hover {
       color: var(--hover-color);
@@ -199,13 +203,16 @@ main {
 h1.intro {
   font-size: 3rem;
   text-align: justify;
-  word-wrap: break-word;
+  display:block;
+  overflow:clip;
+  text-overflow: ellipsis;
 
   .name {
     color: var(--highlight-color);
     font-size: 9rem;
+    line-height: 3rem;
 
-    .aka{
+    .aka {
       font-size: 4rem;
     }
   }
@@ -213,6 +220,7 @@ h1.intro {
   .label {
     color: var(--highlight-color);
     font-size: 4rem;
+    line-height: 6rem;
   }
 }
 
@@ -224,7 +232,7 @@ h1.intro {
     clear: both;
   }
 
-  & p+p {
+  & .img+p {
     padding-top: 15px;
   }
 
@@ -237,6 +245,10 @@ h1.intro {
 
     .text {
       flex: 1 0 0;
+
+      .img {
+        margin-top:15px;
+      }
     }
 
     .img {
@@ -252,7 +264,7 @@ h1.intro {
   .icons {
     display: flex;
     padding: 0.3125rem 0rem 1.5625rem 0rem;
-    align-items: flex-start;
+    align-items: flex-end;
     align-content: flex-start;
     gap: 0.625rem;
     align-self: stretch;
@@ -262,6 +274,16 @@ h1.intro {
       display: flex;
       width: 50px;
       height: 50px;
+      margin-top: 20px;
+      transition: all 300ms ease;
+      transition-delay: 100ms;
+
+      &:hover {
+        width: 70px;
+        height: 70px;
+        margin-top: 0;
+        transition-delay: 0s;
+      }
 
       & img {
         max-width: 100%;
@@ -285,10 +307,29 @@ footer {
   align-items: center;
   gap: 10px;
   align-self: stretch;
-  font-size:.75rem;
+  font-size: .75rem;
+}
+
+.mobile-only{display:none;}
+
+@media only screen and (max-width: 700px) {
+  h1.intro {
+    font-size:2.25rem;
+    
+    .name {
+      line-height: 1;
+    }
+    .label{
+      font-size:inherit;
+      line-height:1;
+    }
+  }
 }
 
 @media only screen and (max-width: 650px) {
+  .desktop-only{display:none;}
+  .mobile-only{display:flex;}
+  
   body>* {
     padding: 10px 15px;
   }
@@ -296,11 +337,9 @@ footer {
   .about section {
     flex-direction: column;
 
-    & .img {
+    .text .img {
       max-width: 100%;
       height: 320px;
-      flex: auto;
-      order: 2;
     }
   }
 }
