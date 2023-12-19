@@ -5,9 +5,23 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import ProjectItem from "@/lib/ProjectItem";
 import { useEffect, useState } from "react"
 
+const skills = [
+  'HTML',
+  'CSS',
+  'PHP',
+  'JavaScript',
+  'Wordpress',
+  'WooCommerce',
+  'Laravel',
+  'Lumen',
+  'OpenCart',
+  'Next.js',
+]
+
 export default function Projects() {
   const [projects, setProjects] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
 
   // load projects
   useEffect(() => {
@@ -37,15 +51,22 @@ export default function Projects() {
 
   return (
     <main>
-      <div className="filter-bar">
-        <FontAwesomeIcon icon={faFilter} />
-        <input className="search-box" placeholder="Search projects.." />
+      <div className="search-bar">
+        <FontAwesomeIcon icon={faFilter} onClick={() => setShowFilters(!showFilters)} />
+        <input placeholder="Search projects.." />
       </div>
-      {isLoading ? 'Loading..' :
-        <div className="project-list">
-          {projects ? projects.map((project) => (<ProjectItem key={project.EntityId} project={project} />)) : 'No results found.'}
-        </div>
-      }
-    </main>
+      <div className="filters" style={{ height: (showFilters ? '50px' : '0') }}>
+        <select name="order-by">
+          <option value="">Most Recent</option>
+          <option value="">Oldest</option>
+        </select>
+        {skills.map((skill) => (<button key={skill}>{skill}</button>))}
+      </div>
+      <div className="project-list">
+        {isLoading ? 'Loading projects..' :
+          projects ? projects.map((project) => (<ProjectItem key={project.EntityId} project={project} />)) : 'No results found.'
+        }
+      </div>
+    </main >
   )
 }
