@@ -1,11 +1,11 @@
 import ProjectForm from '@/lib/ProjectForm'
-import SearchForm from '@/lib/SearchForm'
+import ProjectList from '@/lib/ProjectList'
 
 export default function Test() {
   return (
     <main>
       <ProjectForm />
-      <SearchForm />
+      <ProjectList />
     </main>
   )
 }
