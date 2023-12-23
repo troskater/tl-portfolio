@@ -1,15 +1,9 @@
-import { getProject, saveProject, deleteProject } from "@/lib/redis";
-import { NextResponse } from "next/server";
+import { RestResponse } from "@/lib/RestResponse";
 
-export async function GET(request, { params }) {
-  const id = params.id
-  return NextResponse.json(await getProject(id));
+export function GET(request, { params }) {
+  return RestResponse.get(request, { params })
 }
 
-export async function POST(request, { params }) {
-  // init
-  const id = params.id
-  const project = await request.json()
-
-  return NextResponse.json(await saveProject(id, project))
+export function POST(request, { params }) {
+  return RestResponse.save(request, { params })
 }

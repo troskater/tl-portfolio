@@ -1,8 +1,5 @@
-import { saveProject } from "@/lib/redis";
-import { NextResponse } from "next/server";
+import { RestResponse } from "@/lib/RestResponse";
 
-export async function POST(request) {
-  // init
-  const project = await request.json()
-  return NextResponse.json(await saveProject(project))
+export function POST(request) {
+  return RestResponse.save(request)
 }
