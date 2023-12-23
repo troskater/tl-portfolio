@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import ProjectItem from "@/lib/ProjectItem";
+import ProjectItem from "@/components/ProjectItem";
 import { useEffect, useState } from "react"
 
 const skills = [

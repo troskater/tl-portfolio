@@ -1,4 +1,4 @@
-import { uc } from "./helpers";
+import { uc } from "../lib/helpers";
 
 export function Input(props) {
   // update name for children

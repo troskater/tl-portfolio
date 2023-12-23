@@ -1,5 +1,5 @@
-import ProjectForm from '@/lib/ProjectForm'
-import ProjectList from '@/lib/ProjectList'
+import ProjectForm from '@/components/ProjectForm'
+import ProjectList from '@/components/ProjectList'
 
 export default function Test() {
   return (

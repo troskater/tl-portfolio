@@ -1,5 +1,5 @@
-import NavMenu from '@/lib/NavMenu'
-import Footer from '@/lib/Footer'
+import NavMenu from '@/components/NavMenu'
+import Footer from '@/components/Footer'
 
 import { Source_Code_Pro } from 'next/font/google'
 import './globals.css'

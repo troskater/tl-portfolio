@@ -1,4 +1,4 @@
-import Img from "@/lib/Img";
+import Img from "@/components/Img";
 
 export default function About() {
   return (

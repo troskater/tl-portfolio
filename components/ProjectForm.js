@@ -2,10 +2,9 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAdd, faRemove } from "@fortawesome/free-solid-svg-icons";
-import { uc } from "./helpers"
 import { Input } from "./Input";
 import { useState } from "react";
-import { formSchemas } from "./schemas";
+import { formSchemas } from "../lib/schemas";
 
 const fields = []
 for (const [k, v] of Object.entries(formSchemas.project)) {

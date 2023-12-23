@@ -1,4 +1,4 @@
-import Img from "@/lib/Img"
+import Img from "@/components/Img"
 import { Special_Elite } from 'next/font/google'
 
 const font = Special_Elite({ subsets: ['latin'], weight: '400', })
