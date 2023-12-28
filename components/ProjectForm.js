@@ -23,7 +23,7 @@ export default function ProjectForm() {
 
     // format data
     formData.enabled = Boolean(formData.enabled)
-    if (formData.year && formData.year.length > 0) formData.year.map((v, k) => formData.year[k] = Number(v))
+    if (formData.year) formData.year = Number(formData.year)
     if (formData.images && formData.images.length > 0) {
       formData.images.map((v, k) => {
         formData.images[k]['sort_order'] = Number(v.sort_order)

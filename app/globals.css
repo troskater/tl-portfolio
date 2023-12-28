@@ -12,6 +12,24 @@
   --content-max-width: 60rem;
 }
 
+@property --whiteFadeOffset {
+  syntax: '<percentage>';
+  initial-value: 25%;
+  inherits: false;
+}
+
+@property --whiteFadeBg {
+  syntax: '<color>';
+  initial-value: rgba(0,0,0,0);
+  inherits: false;
+}
+
+@property --whiteFadeColor {
+  syntax: '<color>';
+  initial-value: rgba(255,255,255,.75);
+  inherits: false;
+}
+
 /* @media (prefers-color-scheme: dark) {
   
 } */
@@ -47,9 +65,6 @@
 
 html,
 body {
-  /* max-height: 100svh;
-  max-width: 100vw;
-  overflow: hidden; */
   height: 100svh;
 }
 
@@ -61,10 +76,6 @@ body {
   background: url("/img/ep_naturalblack.png") repeat;
   
   display: grid;
-  /* height: 100svh;
-  width: 100%;
-  overflow-y: scroll;
-  padding-bottom: 6rem; */
   grid-template-columns: 
     [full-start]
       1.5rem
@@ -117,28 +128,7 @@ h4 {
 
 main {
   overflow: auto;
-  /* display: grid;
-  height: 100svh;
-  width: 100%;
-  overflow-y: scroll;
-  padding-bottom: 6rem;
-  grid-template-columns: 
-    [full-start]
-      1.5rem
-        [padded-start]
-          auto
-            [content-start]
-              calc(min(var(--content-max-width) + 3rem,100%) - 3rem)
-            [content-end]
-          auto
-        [padded-end]
-      1.5rem
-    [full-end]
-  ;
-  grid-template-rows: max-content;
-*/
-
-display: grid;
+  display: grid;
   grid-template-columns: subgrid;
   grid-auto-rows: max-content;
 
@@ -151,6 +141,7 @@ input,
 textarea,
 select,
 button {
+  color-scheme: dark;
   font: inherit;
   color: var(--font-color);
   background: var(--bg-color);
@@ -166,6 +157,12 @@ button {
     border-color: var(--bg-lighter);
     outline: none;
   }
+}
+
+/* input autofill fix */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: 2s ease;
 }
 
 label.checkbox {
@@ -194,17 +191,31 @@ button {
     cursor: pointer;
   }
 
-  &:hover {
+  &:hover,
+  &.active {
     color: var(--highlight-color);
     border-color: rgba(var(--highlight-color-rgb), .5);
     box-shadow: inset -.25rem -.25rem 1rem rgba(0, 0, 0, .25), inset .1rem .1rem .75rem rgba(255, 255, 255, .15);
   }
 
   &:focus,
-  &:active {
+  &:active{
     border-style: ridge;
     /* border-color: rgba(var(--highlight-color-rgb), .5); */
+  }
+
+  &.active {
+    color: var(--highlight-color);
     box-shadow: inset .25rem .25rem .5rem rgba(0, 0, 0, .25), inset -.1rem -.1rem .25rem rgba(255, 255, 255, .15);
+  }
+
+  &:disabled,
+  &[disabled]{
+    color: var(--font-color);
+    border-color: var(--bg-light);
+    box-shadow: inset -.25rem -.25rem 1rem rgba(0, 0, 0, .25), inset .1rem .1rem .75rem rgba(255, 255, 255, .15);
+    border-style: ridge;
+    cursor: default;
   }
 }
 
@@ -223,7 +234,11 @@ button {
 
 /* page/component specific */
 .img {
+  min-height: 100px;
+  container-type: inline-size;
+  container-name: img-container;
   display: flex;
+  position:relative;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
@@ -231,10 +246,80 @@ button {
   overflow: clip;
   box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, .5);
 
-  & span {
+  & > span {
     display: inline-block;
     flex: 1 0 0;
     height: 100%;
+    background-color: lightgray;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  &.contain > span{
+    background-size: contain;
+  }
+
+  .content{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    & h3{
+      text-shadow: 2px 2px 0px rgba(0,0,0,.5);
+      margin: 0 1rem;
+    }
+    & p{
+      margin: .5rem 1rem 1rem;
+      text-shadow: 2px 2px 2px rgba(0,0,0,.5),0 0 10px rgba(255,255,255,1);
+    }
+  }
+
+  &.white-fade{
+    &:before{
+      content:'';
+      pointer-events: none;
+      position:absolute;
+      inset:0;
+      background:linear-gradient(var(--whiteFadeBg) var(--whiteFadeOffset),var(--whiteFadeColor));
+      transition: --whiteFadeOffset 1s, --whiteFadeBg 1s, --whiteFadeColor 1s;
+    }
+
+    .content{
+      & h3{
+        transition: color 1s;
+        color:var(--highlight-color);
+      }
+      & p{
+        transition: color 1s,height 1s;
+        color:var(--bg-color);
+      }
+    }
+  }
+
+  & dialog {
+    pointer-events: none;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, .5);
+    opacity: 0;
+    display: flex;
+    outline: 0;
+
+    &[open] {
+      pointer-events: inherit;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+
+    & img {
+      align-self: baseline;
+      max-height: 75vh;
+      max-width: 75vw;
+    }
+
+    &::backdrop {
+      background-color: rgba(0, 0, 0, .5);
+    }
   }
 }
 
@@ -331,44 +416,6 @@ h1.intro {
     content: '';
     clear: both;
   }
-
-  .img {
-    &.white-fade{
-      &:before{
-        content:'';
-        position:absolute;
-        inset:0;
-        background:linear-gradient(rgba(255,255,255,0) 75%,rgba(255,255,255,1));
-      }
-    }
-
-    & dialog {
-      pointer-events: none;
-      margin: 0 auto;
-      top: 50%;
-      transform: translateY(-50%);
-      box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, .5);
-      transition: opacity 0.5s;
-      opacity: 0;
-      display: flex;
-      outline: 0;
-
-      &[open] {
-        pointer-events: inherit;
-        opacity: 1;
-      }
-
-      & img {
-        align-self: baseline;
-        max-height: 75vh;
-        max-width: 75vw;
-      }
-
-      &::backdrop {
-        background-color: rgba(0, 0, 0, .5);
-      }
-    }
-  }
 }
 
 .skills {
@@ -425,7 +472,6 @@ h1.intro {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 0;
 
   & svg:hover {
     cursor: pointer;
@@ -439,6 +485,7 @@ h1.intro {
 .filters {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   align-self: stretch;
   transition: height 200ms ease;
@@ -457,13 +504,13 @@ h1.intro {
 
 .project-list {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   align-self: stretch;
   padding: 1rem 0;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
 
   .item {
     display: flex;
@@ -476,7 +523,90 @@ h1.intro {
     .img {
       aspect-ratio: 16/10;
       max-height: 30rem;
+      
+      .content{
+        & h3{
+          color: var(--font-color);
+        }
+        & p{
+          margin: .5rem 1rem;
+          height: 0;
+          overflow: clip;
+        }
+      }
+      &:hover{
+        &.white-fade{
+          &:before{
+            --whiteFadeOffset: 0%;
+            --whiteFadeBg: rgba(0,0,0,0);
+            --whiteFadeColor: rgba(255,255,255,1);
+          }
+
+          .content h3{color:var(--highlight-color);}
+          .content p{height:3rem;}
+        }
+      }
     }
+
+    &.detailed{
+      min-width: max(45%, 18rem);
+      .img{
+        &:before{
+          --whiteFadeOffset: 25%;
+          --whiteFadeBg: rgba(0,0,0,0);
+          --whiteFadeColor: rgba(100,100,100,.75);
+        }
+        .content h3{color:var(--font-color);}
+      }
+    }
+
+    &.simple .img{
+      &:before{
+        --whiteFadeOffset: 50%;
+        --whiteFadeBg: rgba(0,0,0,.5);
+        --whiteFadeColor: rgba(100,100,100,.75);
+      }
+      .content h3{color:var(--font-color);}
+    }
+  }
+}
+
+.project {
+  padding: 1rem 0;
+
+  .img {
+    aspect-ratio: 16/10;
+    max-height: 30rem;
+  }
+
+  .meta{
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+
+    .roles{
+      display: flex;
+      gap: .5rem;
+      flex-direction: column;
+      white-space: nowrap;
+    }
+
+    .tags{
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-content: center;
+    }
+  }
+
+  .images{
+    display: flex;
+    gap: 1rem;
+  }
+
+  .description{
+    padding: 1rem;
   }
 }
 
@@ -523,6 +653,13 @@ footer {
   grid-column: padded;
 }
 
+@container img-container (max-width: 25rem){
+  .img .content h3{font-size:1.5rem;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.4),2px 2px 0 rgba(0,0,0,.4);
+  }
+  .img .content p{font-size:.8rem;}
+}
+
 @media only screen and (max-width: 40rem) {
   h1.intro {
     font-size: 2.25rem;
@@ -543,14 +680,39 @@ footer {
 
     .img {
       min-height: 300px;
-
-      & dialog {
-        & img {
-          align-self: baseline;
-          max-height: 90vh;
-          max-width: 90vw;
-        }
+    }
+  }
+  
+  .img {
+    & dialog {
+      & img {
+        align-self: baseline;
+        max-height: 90vh;
+        max-width: 90vw;
       }
+    }
+  }
+
+  .project {
+    .meta{
+      flex-direction: column;
+      padding: 1rem .5rem;
+  
+      .roles{
+        white-space: normal;
+      }
+  
+      .tags{
+        justify-content: flex-start;
+      }
+    }
+  
+    .images{
+      flex-direction: column;
+    }
+  
+    .description{
+      padding: 1rem .5rem;
     }
   }
 }
@@ -602,5 +764,56 @@ footer {
 
   90% {
     transform: translate(-10%, 10%)
+  }
+}
+
+.loading-container {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding-top: 5%;
+}
+
+.loading-anim {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+
+  & div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 16px;
+    background: #fff;
+    animation: loading-anim 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+
+    &:nth-child(1) {
+      left: 8px;
+      animation-delay: -0.24s;
+    }
+
+    &:nth-child(2) {
+      left: 32px;
+      animation-delay: -0.12s;
+    }
+
+    &:nth-child(3) {
+      left: 56px;
+      animation-delay: 0;
+    }
+  }
+}
+
+@keyframes loading-anim {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+
+  50%,
+  100% {
+    top: 24px;
+    height: 32px;
   }
 }
