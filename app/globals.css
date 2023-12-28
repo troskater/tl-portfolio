@@ -246,6 +246,10 @@ button {
   overflow: clip;
   box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, .5);
 
+  &.has-dialog{
+    cursor: pointer;
+  }
+
   & > span {
     display: inline-block;
     flex: 1 0 0;
@@ -273,6 +277,14 @@ button {
     }
   }
 
+  &.white-content-box{
+    .content{
+      pointer-events: none;
+      background: rgba(255,255,255,.75);
+      color: var(--bg-color);
+    }
+  }
+
   &.white-fade{
     &:before{
       content:'';
@@ -284,6 +296,7 @@ button {
     }
 
     .content{
+      pointer-events: none;
       & h3{
         transition: color 1s;
         color:var(--highlight-color);
@@ -572,11 +585,27 @@ h1.intro {
 }
 
 .project {
-  padding: 1rem 0;
+  padding: 0 0 1rem;
+
+  & nav{
+    display: flex;
+    justify-content: space-between;
+  }
 
   .img {
     aspect-ratio: 16/10;
     max-height: 30rem;
+
+    & aside{
+      float: right;
+      text-align: right;
+      margin: 0 1rem 1rem;
+
+      & a{
+        color: var(--bg-color);
+        pointer-events: all;
+      }
+    }
   }
 
   .meta{
@@ -654,10 +683,14 @@ footer {
 }
 
 @container img-container (max-width: 25rem){
-  .img .content h3{font-size:1.5rem;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.4),2px 2px 0 rgba(0,0,0,.4);
+  .content{
+    & h3{font-size:1.5rem;
+      text-shadow: 1px 1px 0 rgba(0,0,0,.4),2px 2px 0 rgba(0,0,0,.4);
+    }
+    & p{
+      font-size:.8rem;
+    }
   }
-  .img .content p{font-size:.8rem;}
 }
 
 @media only screen and (max-width: 40rem) {

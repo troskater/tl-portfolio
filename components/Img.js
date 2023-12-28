@@ -7,7 +7,7 @@ export default function Img(props) {
   const dialog2 = useRef(false)
 
   return (
-    <div className={'img ' + (props.src2 ? 'img-flex-2 ' : '') + (props.className ?? '')}>
+    <div className={'img ' + (props.src2 ? 'img-flex-2 ' : '') + (props.showDialog ? 'has-dialog ' : '') + (props.className ?? '')}>
       {props.src ? (<span style={{
         backgroundImage: "url('/img/" + props.src + "')"
       }} onClick={() => {
