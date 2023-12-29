@@ -10,6 +10,9 @@
 
   /* Settings */
   --content-max-width: 60rem;
+  --whiteFadeOffset: 25%;
+  --whiteFadeBg: rgba(0,0,0,0);
+  --whiteFadeColor: rgba(255,255,255,.75);
 }
 
 @property --whiteFadeOffset {
