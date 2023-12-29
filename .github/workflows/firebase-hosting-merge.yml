@@ -8,7 +8,7 @@ name: Deploy to Firebase Hosting on merge
       - master
 
 env:
-  REDIS_DEV_URI: ${{ secrets.REDIS_DEV_URI }}
+  REDIS_DEV_URI: localhost:6379
   FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
   FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
   FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
