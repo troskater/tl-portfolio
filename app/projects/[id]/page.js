@@ -3,7 +3,6 @@
 import Img from "@/components/Img"
 import { Special_Elite } from 'next/font/google'
 import Loader from "@/components/Loader";
-import ProjectItem from "@/components/ProjectItem";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

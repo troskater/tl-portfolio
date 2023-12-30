@@ -4,8 +4,10 @@ import ProjectList from '@/components/ProjectList'
 export default function Test() {
   return (
     <main>
-      <ProjectForm />
-      <ProjectList />
+      {process.env.NODE_ENV == "development" ? (<>
+        <ProjectForm />
+        <ProjectList />
+      </>) : <div>Test</div>}
     </main>
   )
 }
