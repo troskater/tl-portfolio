@@ -25,3 +25,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TROYL_DEV }}'
           channelId: live
           projectId: troyl-dev
+    env:
+      FIREBASE_CLI_EXPERIMENTS: webframeworks
