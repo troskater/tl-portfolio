@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 function getImage(skill) {
@@ -50,7 +51,14 @@ export default function SkillLink(props) {
 
   return (
     <Link href="/projects" className="skill">
-      {(icon ? <img src={'img/skills/' + icon + '.svg'} alt={label} /> : '')}
+      {(icon ? <Image
+        src={'/img/skills/' + icon + '.svg'}
+        width={48}
+        height={48}
+        sizes="3rem"
+        style={{ width: '100%', height: 'auto' }}
+        alt={label}
+      /> : '')}
     </Link>
   );
 }

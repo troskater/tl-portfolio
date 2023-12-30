@@ -1,5 +1,6 @@
 'use client'
 
+import Image from "next/image";
 import { useRef } from "react";
 
 export default function Img(props) {
@@ -17,7 +18,14 @@ export default function Img(props) {
             <dialog ref={dialog} onClick={(e) => {
               e.stopPropagation()
               dialog.current.close()
-            }}><img src={'/img/' + props.src} alt="" /></dialog>
+            }}><Image
+                src={'/img/' + props.src}
+                width={960}
+                height={0}
+                sizes="60rem"
+                style={{ width: '100%', height: 'auto' }}
+                alt=""
+              /></dialog>
           ) : ''
         }</span>) : ''}
       {props.src2 ? (<span style={{
@@ -29,7 +37,14 @@ export default function Img(props) {
             <dialog ref={dialog2} onClick={(e) => {
               e.stopPropagation()
               dialog2.current.close()
-            }}><img src={'/img/' + props.src2} alt="" /></dialog>
+            }}><Image
+                src={'/img/' + props.src2}
+                width={960}
+                height={0}
+                sizes="60rem"
+                style={{ width: '100%', height: 'auto' }}
+                alt=""
+              /></dialog>
           ) : ''
         }</span>
       ) : ''}
