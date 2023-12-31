@@ -1,11 +1,11 @@
 'use client'
 
 import { Special_Elite } from 'next/font/google'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 const font = Special_Elite({ subsets: ['latin'], weight: '400', })
-const letters = "abcdefghijklmnopqrstuvwxyz";
-const vowels = "AEIOU";
+const letters = "abcdefghijklmnopqrstuvwxyz"
+const vowels = "AEIOU"
 const titles = [
   {
     'label': 'Software Engineer',
@@ -42,20 +42,20 @@ const titles = [
 ]
 
 export default function Intro() {
-  const [index, setIndex] = useState(0);
-  const [label, setLabel] = useState(titles[index].label);
-  const [desc, setDesc] = useState(titles[index].desc);
-  const [pre, setPre] = useState('a');
+  const [index, setIndex] = useState(0)
+  const [label, setLabel] = useState(titles[index].label)
+  const [desc, setDesc] = useState(titles[index].desc)
+  const [pre, setPre] = useState('a')
 
   useEffect(() => {
-    const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true;
+    const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
 
     // jumble function
-    let jumbleInterval = null;
+    let jumbleInterval = null
     const jumble = event => {
-      let iteration = 0;
+      let iteration = 0
 
-      clearInterval(jumbleInterval);
+      clearInterval(jumbleInterval)
       jumbleInterval = setInterval(() => {
         // set new label
         let newIndex = index + 1
@@ -71,7 +71,7 @@ export default function Intro() {
           .split("")
           .map((letter, index) => {
             if (index < iteration) {
-              return newLabel[index];
+              return newLabel[index]
             }
 
             return letters[Math.floor(Math.random() * 26)]
@@ -79,11 +79,11 @@ export default function Intro() {
           .join(""))
 
         if (iteration >= newLabel.length) {
-          clearInterval(jumbleInterval);
+          clearInterval(jumbleInterval)
         }
 
-        iteration += 1 / 3;
-      }, 30);
+        iteration += 1 / 3
+      }, 30)
     }
 
     // change label index and jumble letters
@@ -99,15 +99,15 @@ export default function Intro() {
         let newLabel = titles[newIndex].label
         setLabel(newLabel)
       } else jumble()
-    }, 7000);
+    }, 7000)
 
     // clear label change interval
-    return () => clearInterval(interval);
-  }, [index, label, pre]);
+    return () => clearInterval(interval)
+  }, [index, label, pre])
 
   return (
     <h1 className={font.className + ' intro'}>
       <span className="name" title="aka troskater">Troy L.</span><br />{desc} as {pre}<br /><span className="label">{label}</span>
     </h1>
-  );
+  )
 }

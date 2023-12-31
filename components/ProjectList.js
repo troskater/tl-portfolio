@@ -21,13 +21,15 @@ const skills = [
 const endpoint = '/api/projects'
 
 export default function ProjectList() {
-  const [query, setQuery] = useState(false);
+  const [query, setQuery] = useState({
+    title: '',
+    sortBy: 'sort_order',
+    sort: 'ASC',
+    tags: []
+  });
   const [showFilters, setShowFilters] = useState(false)
   const [projects, setProjects] = useState([])
   const [isLoading, setLoading] = useState(true)
-  const [sortBy, setSortBy] = useState('sort_order');
-  const [sort, setSort] = useState('ASC');
-  const [tags, setTags] = useState([]);
 
   // load projects
   useEffect(() => {
@@ -43,10 +45,10 @@ export default function ProjectList() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        title: query.length > 2 ? query : '',
-        sortBy: sortBy,
-        sort: sort,
-        tags: tags,
+        title: query.title,
+        sortBy: query.sortBy,
+        sort: query.sort,
+        tags: query.tags,
       })
     }
 
@@ -73,26 +75,24 @@ export default function ProjectList() {
           setLoading(false)
         }
       })
-  }, [query, sortBy, sort, tags])
+  }, [query])
 
   return (<>
     <div className="search-bar">
       <FontAwesomeIcon icon={faFilter} onClick={() => setShowFilters(!showFilters)} title="Filters" />
-      <input onChange={e => setQuery(e.target.value)} type="text" placeholder="Search projects.." />
+      <input onChange={e => setQuery({ ...query, 'title': e.target.value })} type="text" placeholder="Search projects.." />
     </div>
     <div className="filters" style={{ height: (showFilters ? '50px' : '0') }}>
       <select onChange={e => {
-        setSortBy(e.target.value.split(',')[0])
-        setSort(e.target.value.split(',')[1])
+        setQuery({ ...query, 'sortBy': e.target.value.split(',')[0], 'sort': e.target.value.split(',')[1] })
       }}>
         <option value="sort_order,ASC">Default</option>
         <option value="year,DESC">Most Recent</option>
         <option value="year,ASC">Oldest</option>
       </select>
       {skills.map((skill) => (<button key={skill} onClick={e => {
-        tags.includes(skill) ? setTags([]) : setTags([skill])
-        // tags.includes(skill) ? setTags(tags.filter((s) => s !== skill)) : setTags([...tags, skill])
-      }} className={tags.includes(skill) ? 'active' : ''}>{skill}</button>))}
+        query.tags.includes(skill) ? setQuery({ ...query, 'tags': [] }) : setQuery({ ...query, 'tags': [skill] })
+      }} className={query.tags.includes(skill) ? 'active' : ''}>{skill}</button>))}
     </div>
     <div className="project-list">
       {isLoading && projects.length <= 0 ? <Loader text="Loading projects.." /> :
