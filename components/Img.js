@@ -9,11 +9,20 @@ export default function Img(props) {
 
   return (
     <div className={'img ' + (props.src2 ? 'img-flex-2 ' : '') + (props.showDialog ? 'has-dialog ' : '') + (props.className ?? '')}>
-      {props.src ? (<span style={{
-        backgroundImage: "url('/img/" + props.src + "')"
-      }} onClick={() => {
+      {props.src ? (<span onClick={() => {
         props.showDialog ? dialog.current.showModal() : ''
-      }}>{
+      }}>
+        <Image
+          src={'/img/' + props.src}
+          fill
+          sizes="60rem"
+          style={{
+            objectFit: props.fit ?? 'cover',
+          }}
+          alt=""
+          priority={props.priority ?? false}
+        />
+        {
           props.showDialog ? (
             <dialog ref={dialog} onClick={(e) => {
               e.stopPropagation()
@@ -27,12 +36,22 @@ export default function Img(props) {
                 alt=""
               /></dialog>
           ) : ''
-        }</span>) : ''}
-      {props.src2 ? (<span style={{
-        backgroundImage: "url('/img/" + props.src2 + "')"
-      }} onClick={() => {
+        }
+      </span>) : ''}
+      {props.src2 ? (<span onClick={() => {
         props.showDialog ? dialog2.current.showModal() : ''
-      }}>{
+      }}>
+        <Image
+          src={'/img/' + props.src2}
+          fill
+          sizes="60rem"
+          style={{
+            objectFit: props.fit ?? 'cover',
+          }}
+          alt=""
+          priority={props.priority ?? false}
+        />
+        {
           props.showDialog ? (
             <dialog ref={dialog2} onClick={(e) => {
               e.stopPropagation()
@@ -46,7 +65,8 @@ export default function Img(props) {
                 alt=""
               /></dialog>
           ) : ''
-        }</span>
+        }
+      </span>
       ) : ''}
       <div className="content">
         {props.children}

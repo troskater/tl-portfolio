@@ -126,7 +126,7 @@ export default function Page({ params }) {
             <FontAwesomeIcon icon={faTable} title="Back to Projects" />
           </Link>}
         </nav>
-        <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className={"white-fade" + (project.thumb.src.includes('logo') ? ' contain' : '')}>
+        <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className="white-fade" fit={project.thumb.src.includes('logo') ? 'contain' : ''} priority={true}>
           <aside>
             <p>{project.year}</p>
             <a href={'http://' + project.url} target="_blank">{project.url}</a>

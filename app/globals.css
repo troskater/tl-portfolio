@@ -263,6 +263,7 @@ button {
     cursor: pointer;
   }
 
+  /* The actual image */
   & > span {
     display: inline-block;
     flex: 1 0 0;
@@ -271,6 +272,8 @@ button {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50%;
+    position:relative;
+    z-index:-1;
   }
 
   &.contain > span{
@@ -547,7 +550,7 @@ h1.intro {
     align-self: stretch;
 
     .img {
-      aspect-ratio: 16/10;
+      aspect-ratio: 16/9;
       max-height: 30rem;
       
       .content{
@@ -606,7 +609,7 @@ h1.intro {
   }
 
   .img {
-    aspect-ratio: 16/10;
+    aspect-ratio: 16/9;
     max-height: 30rem;
 
     & aside{
