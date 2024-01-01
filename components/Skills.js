@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Special_Elite } from 'next/font/google'
 import SkillLink from "./SkillLink";
 
@@ -6,7 +5,7 @@ const font = Special_Elite({ subsets: ['latin'], weight: '400', })
 
 export default function Skills() {
   return (
-    <div>
+    <section>
       <div className="skills">
         <h3 className={font.className}>Languages</h3>
         <h4>(I&apos;m most proficient in)</h4>
@@ -66,6 +65,6 @@ export default function Skills() {
           <SkillLink skill="firebase" />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
