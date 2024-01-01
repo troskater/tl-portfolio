@@ -26,10 +26,10 @@ export default function Page({ params }) {
       // get response
       .then((res) => res.json())
       // set
-      .then((data) => {
+      .then((project) => {
         // console.log('setting projects', data)
         // reverse due to reversed flexbox order to expand first row items
-        setProject(data)
+        setProject(project)
         setLoading(false)
       })
       // check for errors
@@ -46,82 +46,18 @@ export default function Page({ params }) {
       })
   }, [params])
 
-  useEffect(() => {
-    // get prev project
-    if (project) fetch(endpoint + '/prev', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        sort_order: project.sort_order
-      })
-    })
-      // get response
-      .then((res) => res.json())
-      // set
-      .then((data) => {
-        // console.log('setting projects', data)
-        // reverse due to reversed flexbox order to expand first row items
-        setPrevProject(data)
-      })
-      // check for errors
-      .catch(error => {
-        if (error.status === 404) {
-          // handle 404 error
-          console.log('Error 404: "' + endpoint + '" not found')
-        } else {
-          // handle other errors
-          console.log('error', error)
-        }
-      })
-  }, [project])
-
-  useEffect(() => {
-    // get next project
-    if (project) fetch(endpoint + '/next', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        sort_order: project.sort_order
-      })
-    })
-      // get response
-      .then((res) => res.json())
-      // set
-      .then((data) => {
-        // console.log('setting projects', data)
-        // reverse due to reversed flexbox order to expand first row items
-        setNextProject(data)
-      })
-      // check for errors
-      .catch(error => {
-        if (error.status === 404) {
-          // handle 404 error
-          console.log('Error 404: "' + endpoint + '" not found')
-        } else {
-          // handle other errors
-          console.log('error', error)
-        }
-      })
-  }, [project])
-
   return <main>
     {isLoading
       ? <Loader text="Loading project.." />
       : <div className="project">
         <nav>
-          {prevProject ? <Link href={"/projects/" + prevProject._entityId}>
-            <FontAwesomeIcon icon={faBackward} title={prevProject.title} />
+          {project.prev ? <Link href={"/projects/" + project.prev._entityId}>
+            <FontAwesomeIcon icon={faBackward} title={project.prev.title} />
           </Link> : <Link href="/projects">
             <FontAwesomeIcon icon={faTable} title="Back to Projects" />
           </Link>}
-          {nextProject ? <Link href={"/projects/" + nextProject._entityId}>
-            <FontAwesomeIcon icon={faForward} title={nextProject.title} />
+          {project.next ? <Link href={"/projects/" + project.next._entityId}>
+            <FontAwesomeIcon icon={faForward} title={project.next.title} />
           </Link> : <Link href="/projects">
             <FontAwesomeIcon icon={faTable} title="Back to Projects" />
           </Link>}
