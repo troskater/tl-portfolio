@@ -45,8 +45,7 @@ export default function ProjectFilters() {
     </section>
     <section className="filters" style={{ height: (showFilters ? '50px' : '0') }}>
       <select onChange={e => {
-        router.replace(pathname + '?' + createQueryString('sortBy', e.target.value.split(',')[0]))
-        router.replace(pathname + '?' + createQueryString('sort', e.target.value.split(',')[1]))
+        router.replace(pathname + '?' + createQueryString('sort', e.target.value))
       }}>
         <option value="sort_order,ASC">Default</option>
         <option value="year,DESC">Most Recent</option>

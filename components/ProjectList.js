@@ -1,5 +1,4 @@
 import ProjectItem from "@/components/ProjectItem";
-import Loader from './Loader';
 import { db } from '@/lib/db';
 
 export default async function ProjectList(params) {
