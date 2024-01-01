@@ -9,7 +9,7 @@ export default function Skills() {
     <div>
       <div className="skills">
         <h3 className={font.className}>Languages</h3>
-        <h4>(I’m most proficient in)</h4>
+        <h4>(I&apos;m most proficient in)</h4>
         <div className="icons">
           <SkillLink skill="html" />
           <SkillLink skill="css" />
@@ -21,7 +21,7 @@ export default function Skills() {
       </div>
       <div className="skills">
         <h3 className={font.className}>Frameworks</h3>
-        <h4>(I’m most familiar with)</h4>
+        <h4>(I&apos;m most familiar with)</h4>
         <div className="icons">
           <SkillLink skill="wordpress" />
           <SkillLink skill="woocommerce" />
@@ -37,7 +37,7 @@ export default function Skills() {
       </div>
       <div className="skills">
         <h3 className={font.className}>Libraries</h3>
-        <h4>(I’ve spent the most time with)</h4>
+        <h4>(I&apos;ve spent the most time with)</h4>
         <div className="icons">
           <SkillLink skill="mysql" />
           <SkillLink skill="mariadb" />

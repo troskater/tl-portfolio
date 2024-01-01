@@ -14,15 +14,13 @@ const endpoint = '/api/projects'
 export default function Page({ params }) {
   const [isLoading, setLoading] = useState(true)
   const [project, setProject] = useState(null)
-  const [nextProject, setNextProject] = useState(null)
-  const [prevProject, setPrevProject] = useState(null)
 
   useEffect(() => {
     // init
     setLoading(true)
 
     // load project
-    fetch(endpoint + '/' + params.id)
+    fetch(endpoint + '/slug/' + params.slug)
       // get response
       .then((res) => res.json())
       // set
@@ -47,16 +45,16 @@ export default function Page({ params }) {
   }, [params])
 
   return <main>
-    {isLoading
+    {isLoading || !project
       ? <Loader text="Loading project.." />
       : <div className="project">
         <nav>
-          {project.prev ? <Link href={"/projects/" + project.prev._entityId}>
+          {project.prev ? <Link href={"/projects/" + project.prev.slug}>
             <FontAwesomeIcon icon={faBackward} title={project.prev.title} />
           </Link> : <Link href="/projects">
             <FontAwesomeIcon icon={faTable} title="Back to Projects" />
           </Link>}
-          {project.next ? <Link href={"/projects/" + project.next._entityId}>
+          {project.next ? <Link href={"/projects/" + project.next.slug}>
             <FontAwesomeIcon icon={faForward} title={project.next.title} />
           </Link> : <Link href="/projects">
             <FontAwesomeIcon icon={faTable} title="Back to Projects" />
@@ -64,11 +62,11 @@ export default function Page({ params }) {
         </nav>
         <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className="white-fade" fit={project.thumb.src.includes('logo') ? 'contain' : ''} priority={true}>
           <aside>
-            <p>{project.year}</p>
-            <a href={'http://' + project.url} target="_blank">{project.url}</a>
+            <p className="year">{project.year}</p>
+            <a href={'http://' + project.url} target="_blank" className="url">{project.url}</a>
           </aside>
-          <h3 className={font.className}>{project.title}</h3>
-          <p>{project.headline}</p>
+          <h3 className={font.className + ' title'}>{project.title}</h3>
+          <p className="headline">{project.headline}</p>
         </Img>
         <div className="meta">
           <div className="roles">{project.roles.map(role => (

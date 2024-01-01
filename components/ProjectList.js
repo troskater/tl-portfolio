@@ -44,12 +44,7 @@ export default function ProjectList() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        title: query.title,
-        sortBy: query.sortBy,
-        sort: query.sort,
-        tags: query.tags,
-      })
+      body: JSON.stringify(query)
     }
 
     // set request

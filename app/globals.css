@@ -707,6 +707,9 @@ footer {
     & p{
       font-size:.8rem;
     }
+    & .url{
+      display: none;
+    }
   }
 }
 
