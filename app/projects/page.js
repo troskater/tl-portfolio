@@ -1,6 +1,5 @@
 import ProjectFilters from '@/components/ProjectFilters';
 import ProjectList from '@/components/ProjectList';
-import { Suspense } from 'react';
 
 export default function Projects({ searchParams }) {
   const q = {
