@@ -274,7 +274,6 @@ button {
     background-repeat: no-repeat;
     background-position: 50%;
     position:relative;
-    z-index:-1;
   }
 
   &.contain > span{
@@ -310,10 +309,13 @@ button {
       inset:0;
       background:linear-gradient(var(--whiteFadeBg) var(--whiteFadeOffset),var(--whiteFadeColor));
       transition: --whiteFadeOffset 1s, --whiteFadeBg 1s, --whiteFadeColor 1s;
+      z-index: 1;
     }
 
     .content{
       pointer-events: none;
+      z-index: 1;
+
       & h3{
         transition: color 1s;
         color:var(--highlight-color);
@@ -322,33 +324,6 @@ button {
         transition: color 1s,height 1s;
         color:var(--bg-color);
       }
-    }
-  }
-
-  & dialog {
-    pointer-events: none;
-    margin: 0 auto;
-    top: 50%;
-    transform: translateY(-50%);
-    box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, .5);
-    opacity: 0;
-    display: flex;
-    outline: 0;
-
-    &[open] {
-      pointer-events: inherit;
-      opacity: 1;
-      transition: opacity 0.5s;
-    }
-
-    & img {
-      align-self: baseline;
-      max-height: 75vh;
-      max-width: 75vw;
-    }
-
-    &::backdrop {
-      background-color: rgba(0, 0, 0, .5);
     }
   }
 }
@@ -699,6 +674,42 @@ footer {
   grid-column: padded;
 }
 
+dialog {
+  pointer-events: none;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, .5);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  outline: 0;
+
+  &[open] {
+    pointer-events: inherit;
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+
+  & img {
+    align-self: baseline;
+    max-height: 75vh;
+    max-width: 75vw;
+  }
+
+  .content {
+    padding: 1rem;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, .5);
+  }
+}
+
 @container img-container (max-width: 25rem){
   .content{
     & h3{font-size:1.5rem;
@@ -736,13 +747,11 @@ footer {
     }
   }
   
-  .img {
-    & dialog {
-      & img {
-        align-self: baseline;
-        max-height: 90vh;
-        max-width: 90vw;
-      }
+  dialog {
+    & img {
+      align-self: baseline;
+      max-height: 90vh;
+      max-width: 90vw;
     }
   }
 

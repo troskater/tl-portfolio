@@ -5,7 +5,7 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-const skills = [
+const frameworks = [
   // 'HTML',
   // 'CSS',
   // 'PHP',
@@ -51,10 +51,10 @@ export default function ProjectFilters() {
         <option value="year,DESC">Most Recent</option>
         <option value="year,ASC">Oldest</option>
       </select>
-      {skills.map((skill) => (<button key={skill} onClick={e => {
-        router.replace(pathname + '?' + createQueryString('tag', searchParams.get('tag') == skill ? '' : skill))
-      }} className={searchParams.get('tag') == skill ? 'active' : ''}
-      >{skill}</button>))}
+      {frameworks.map((framework) => (<button key={framework} onClick={() => {
+        router.replace(pathname + '?' + createQueryString('tag', searchParams.get('tag') == framework ? '' : framework))
+      }} className={searchParams.get('tag') == framework ? 'active' : ''}
+      >{framework}</button>))}
     </section>
   </>);
 }

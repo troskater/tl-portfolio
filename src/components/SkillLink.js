@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // import images
-const images = importImgDir(require.context('../public/img/skills', false, /\.(png|jpe?g|svg|js)$/));
+const images = importImgDir(require.context('../../public/img/skills', false, /\.(png|jpe?g|svg|js)$/));
 
 export default function SkillLink(props) {
   const label = props.skill

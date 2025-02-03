@@ -44,7 +44,7 @@ export default function ProjectForm() {
     });
 
     // get result
-    const result = await res.json();
+    await res.json();
     // console.log(result)
   };
   // console.log(fields)

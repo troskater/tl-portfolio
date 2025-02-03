@@ -5,7 +5,7 @@ export default function Test() {
     <main>
       {process.env.NODE_ENV == "development" ? (<>
         <ProjectForm />
-      </>) : <div>Test</div>}
+      </>) : <div>Not allowed.</div>}
     </main>
   )
 }

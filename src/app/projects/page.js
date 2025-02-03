@@ -1,11 +1,13 @@
 import ProjectFilters from '@/components/ProjectFilters';
 import ProjectList from '@/components/ProjectList';
 
-export default function Projects({ searchParams }) {
+export default async function Projects({ searchParams }) {
+  const sp = await searchParams
+
   const q = {
-    title: searchParams.title || '',
-    sort: searchParams.sort || 'sort_order,ASC',
-    tag: searchParams.tag || ''
+    title: sp.title || '',
+    sort: sp.sort || 'sort_order,ASC',
+    tag: sp.tag || ''
   }
 
   return (

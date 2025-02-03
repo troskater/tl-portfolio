@@ -8,7 +8,8 @@ import { db } from "@/lib/db";
 const font = Special_Elite({ subsets: ['latin'], weight: '400', })
 
 export default async function Page({ params }) {
-  const project = await db.project.getBySlug(params.slug)
+  const p = await params
+  const project = await db.project.getBySlug(p.slug)
 
   return <main>
     <article className="project">
