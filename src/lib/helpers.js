@@ -76,7 +76,7 @@ export function parseFormDataArrays(formData) {
 
 export function importImgDir(r) {
   let images = {};
-  r.keys().map((item, index) => {
+  r.keys().map((item) => {
     images[item.replace('./', '')] = r(item).default
   });
   return images;

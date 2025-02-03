@@ -52,7 +52,7 @@ export default function Intro() {
 
     // jumble function
     let jumbleInterval = null
-    const jumble = event => {
+    const jumble = () => {
       let iteration = 0
 
       clearInterval(jumbleInterval)
