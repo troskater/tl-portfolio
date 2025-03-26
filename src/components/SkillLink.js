@@ -6,7 +6,7 @@ import Link from "next/link";
 const images = importImgDir(require.context('../../public/img/skills', false, /\.(png|jpe?g|svg|js)$/));
 
 export default function SkillLink(props) {
-  const label = props.skill
+  const label = props.label || props.skill
   const icon = images[props.skill + '.svg']
 
   return (
@@ -18,6 +18,7 @@ export default function SkillLink(props) {
         sizes="3rem"
         style={{ width: '100%', height: 'auto' }}
         alt={label}
+        title={label}
       /> : '')}
     </Link>
   );
