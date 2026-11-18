@@ -80,13 +80,6 @@ export class Table {
     return await this.repo.remove(id)
   }
 
-  // get all
-  async getAll() {
-    const items = await this.#parseSearchQuery()
-
-    return items && items.length > 0 ? await Promise.all(items.map((item) => this.#filterItem(item))) : []
-  }
-
   // search
   async search(q) { // q is obj with fields to query as keys
     // use * for wildcards, where().not.eq for not, 
