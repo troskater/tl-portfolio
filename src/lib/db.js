@@ -61,10 +61,10 @@ db.project.searchQuery = (q, query) => {
     }
   }
 
-  // sorting: only columns marked sortable in the schema, anything else falls back to the default
+  // sorting: only columns marked sortable in the schema, anything else falls back to the default (highest sort_order first)
   const [field, dir] = (q?.sort ?? '').split(',')
   if (dbSchemas.project[field]?.sortable) query.sortBy(field, dir?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC')
-  else query.sortAscending('sort_order')
+  else query.sortDescending('sort_order')
 
   return query
 }

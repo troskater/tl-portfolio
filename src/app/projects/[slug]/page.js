@@ -13,6 +13,9 @@ export default async function Page({ params }) {
   const project = await db.project.getBySlug(p.slug)
   if (!project) notFound()
 
+  // stored urls are bare domains
+  const href = /^https?:\/\//.test(project.url) ? project.url : 'https://' + project.url
+
   return <main>
     <article className="project">
       <nav>
@@ -30,7 +33,7 @@ export default async function Page({ params }) {
       <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className="white-fade" fit={project.thumb?.src?.includes('logo') ? 'contain' : ''} priority={true}>
         <aside>
           <p className="year">{project.year}</p>
-          <a href={'http://' + project.url} target="_blank" className="url">{project.url}</a>
+          <a href={href} target="_blank" className="url">{project.url}</a>
         </aside>
         <h3 className={font.className + ' title'}>{project.title}</h3>
         <p className="headline">{project.headline}</p>

@@ -41,6 +41,23 @@ test('a bad sort value falls back to the default order', async () => {
   assert.deepEqual(await order('/projects?sort=foo,bar'), await order('/projects'))
 })
 
+test('a repeated query param does not break the list', async () => {
+  for (const q of ['sort=a&sort=b', 'tag=a&tag=b', 'title=a&title=b']) {
+    assert.match((await get('/projects?' + q)).html, /class="item|No results found\./, q)
+  }
+})
+
+test('"Most Recent" and "Oldest" sort by year the way they are labelled', async () => {
+  const years = async (sort) => {
+    const slugs = cards((await get('/projects?sort=' + sort)).html).map((c) => c.slug)
+    return Promise.all(slugs.map(async (s) => Number((await get('/projects/' + s)).html.match(/class="year">(\d+)</)[1])))
+  }
+  const newest = await years('year,DESC')
+  const oldest = await years('year,ASC')
+  assert.deepEqual(newest, [...newest].sort((a, b) => b - a), 'Most Recent is not newest first')
+  assert.deepEqual(oldest, [...oldest].sort((a, b) => a - b), 'Oldest is not oldest first')
+})
+
 test('the old write API is gone', async () => {
   for (const path of ['/api/projects/new', '/api/images/new']) {
     const { status } = await get(path, { method: 'POST', body: '{}', headers: { 'content-type': 'application/json' } })

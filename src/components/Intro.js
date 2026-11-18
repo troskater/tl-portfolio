@@ -1,7 +1,7 @@
 'use client'
 
 import { Special_Elite } from 'next/font/google'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const font = Special_Elite({ subsets: ['latin'], weight: '400', })
 const letters = "abcdefghijklmnopqrstuvwxyz"
@@ -46,17 +46,20 @@ export default function Intro() {
   const [label, setLabel] = useState(titles[index].label)
   const [desc, setDesc] = useState(titles[index].desc)
   const [pre, setPre] = useState('a')
+  const jumbleTimer = useRef(null) // outlives effect re-runs so a jumble in progress is not cut off
+
+  // stop a running jumble on unmount
+  useEffect(() => () => clearInterval(jumbleTimer.current), [])
 
   useEffect(() => {
-    const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // jumble function
-    let jumbleInterval = null
     const jumble = () => {
       let iteration = 0
 
-      clearInterval(jumbleInterval)
-      jumbleInterval = setInterval(() => {
+      clearInterval(jumbleTimer.current)
+      jumbleTimer.current = setInterval(() => {
         // set new label
         let newIndex = index + 1
         if (newIndex >= titles.length) newIndex = 0
@@ -79,7 +82,7 @@ export default function Intro() {
           .join(""))
 
         if (iteration >= newLabel.length) {
-          clearInterval(jumbleInterval)
+          clearInterval(jumbleTimer.current)
         }
 
         iteration += 1 / 3
@@ -95,7 +98,7 @@ export default function Intro() {
       setDesc(newDesc)
 
       // jumble 
-      if (!!isReduced) { // skip jumble for reduced motion users
+      if (isReduced) { // skip jumble for reduced motion users
         let newLabel = titles[newIndex].label
         setLabel(newLabel)
       } else jumble()
@@ -103,7 +106,7 @@ export default function Intro() {
 
     // clear label change interval
     return () => clearInterval(interval)
-  }, [index, label, pre])
+  }, [index])
 
   return (
     <h1 className={font.className + ' intro'}>
