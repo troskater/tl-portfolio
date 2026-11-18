@@ -13,27 +13,28 @@ export default async function Page({ params }) {
   const project = await db.project.getBySlug(p.slug)
   if (!project) notFound()
 
-  // stored urls are bare domains
-  const href = /^https?:\/\//.test(project.url) ? project.url : 'https://' + project.url
+  // stored urls are bare domains, and a project can have none
+  const href = project.url && (/^https?:\/\//.test(project.url) ? project.url : 'https://' + project.url)
 
   return <main>
     <article className="project">
       <nav>
+        {/* titleId: without it FontAwesome picks a random id, which differs between server and browser (hydration error) */}
         {project.prev ? <Link href={"/projects/" + project.prev.slug}>
-          <FontAwesomeIcon icon={faBackward} title={project.prev.title} />
+          <FontAwesomeIcon icon={faBackward} title={project.prev.title} titleId="nav-prev-title" />
         </Link> : <Link href="/projects">
-          <FontAwesomeIcon icon={faTable} title="Back to Projects" />
+          <FontAwesomeIcon icon={faTable} title="Back to Projects" titleId="nav-prev-title" />
         </Link>}
         {project.next ? <Link href={"/projects/" + project.next.slug}>
-          <FontAwesomeIcon icon={faForward} title={project.next.title} />
+          <FontAwesomeIcon icon={faForward} title={project.next.title} titleId="nav-next-title" />
         </Link> : <Link href="/projects">
-          <FontAwesomeIcon icon={faTable} title="Back to Projects" />
+          <FontAwesomeIcon icon={faTable} title="Back to Projects" titleId="nav-next-title" />
         </Link>}
       </nav>
       <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className="white-fade" fit={project.thumb?.src?.includes('logo') ? 'contain' : ''} priority={true}>
         <aside>
           <p className="year">{project.year}</p>
-          <a href={href} target="_blank" className="url">{project.url}</a>
+          {href && <a href={href} target="_blank" className="url">{project.url}</a>}
         </aside>
         <h3 className={font.className + ' title'}>{project.title}</h3>
         <p className="headline">{project.headline}</p>

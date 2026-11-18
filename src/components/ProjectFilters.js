@@ -39,7 +39,7 @@ export default function ProjectFilters() {
 
   return (<>
     <section className="search-bar">
-      <FontAwesomeIcon icon={faFilter} onClick={() => setShowFilters(!showFilters)} title="Filters" />
+      <FontAwesomeIcon icon={faFilter} onClick={() => setShowFilters(!showFilters)} title="Filters" titleId="filters-title" />
       {/* wait for a pause in typing, each change is a server render and a Redis query */}
       <input defaultValue={searchParams.get('title') ?? ''} onChange={e => {
         const value = e.target.value
