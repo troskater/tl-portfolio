@@ -1,4 +1,4 @@
-import { redis, Table } from './redis'
+import { Table } from './redis'
 import { dbSchemas } from './schemas'
 import { kebabCase, titleCase, toJSON } from './helpers'
 
@@ -59,23 +59,18 @@ db.project.searchQuery = (q, query) => {
 
       query.and('tags').contain(tag)
     }
-
-    // sorting
-    if (q.sort) {
-      const sort = q.sort.split(',')
-      query.sortBy(sort[0], sort[1])
-    }
-  } else {
-    query.sortAscending('sort_order')
   }
+
+  // sorting: only columns marked sortable in the schema, anything else falls back to the default
+  const [field, dir] = (q?.sort ?? '').split(',')
+  if (dbSchemas.project[field]?.sortable) query.sortBy(field, dir?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC')
+  else query.sortAscending('sort_order')
 
   return query
 }
 
 // custom methods
 db.project.getPrev = async (q) => { // q is obj with fields to query as keys
-  if (!redis.isReady) return []
-
   // find
   const query = db.project.repo.search()
     .where('enabled').true()
@@ -89,8 +84,6 @@ db.project.getPrev = async (q) => { // q is obj with fields to query as keys
 }
 
 db.project.getNext = async (q) => { // q is obj with fields to query as keys
-  if (!redis.isReady) return []
-
   // find
   const query = db.project.repo.search()
     .where('enabled').true()
@@ -104,10 +97,9 @@ db.project.getNext = async (q) => { // q is obj with fields to query as keys
 }
 
 db.project.getBySlug = async (slug) => {
-  if (!redis.isReady) return []
-
-  // find
+  // find, disabled projects are not public
   const query = db.project.repo.search()
+    .where('enabled').true()
     .where('title').match(titleCase(slug))
 
   // return

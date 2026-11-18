@@ -1,6 +1,7 @@
 import Img from "@/components/Img"
 import { Special_Elite } from 'next/font/google'
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBackward, faForward, faTable } from "@fortawesome/free-solid-svg-icons";
 import { db } from "@/lib/db";
@@ -10,6 +11,7 @@ const font = Special_Elite({ subsets: ['latin'], weight: '400', })
 export default async function Page({ params }) {
   const p = await params
   const project = await db.project.getBySlug(p.slug)
+  if (!project) notFound()
 
   return <main>
     <article className="project">
@@ -25,7 +27,7 @@ export default async function Page({ params }) {
           <FontAwesomeIcon icon={faTable} title="Back to Projects" />
         </Link>}
       </nav>
-      <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className="white-fade" fit={project.thumb.src.includes('logo') ? 'contain' : ''} priority={true}>
+      <Img src={project.thumb ? "projects/" + project.thumb.src : ''} className="white-fade" fit={project.thumb?.src?.includes('logo') ? 'contain' : ''} priority={true}>
         <aside>
           <p className="year">{project.year}</p>
           <a href={'http://' + project.url} target="_blank" className="url">{project.url}</a>
