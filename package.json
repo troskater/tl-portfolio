@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "test": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -18,17 +19,15 @@
     "next": "^16.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-fontawesome": "^1.7.1",
     "redis": "^4.7.0",
     "redis-om": "^0.4.7"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.1.6",
+    "eslint-config-next": "^16.4.6",
     "typescript": "^5"
   }
 }
