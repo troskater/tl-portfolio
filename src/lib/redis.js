@@ -4,13 +4,7 @@ import { singularize, toJSON } from './helpers'
 
 // init config
 const useRemote = process.env.NODE_ENV == "production" || process.env.REDIS_ENV == 'remote'
-const config = useRemote ? {
-  socket: {
-    host: process.env.REDIS_URI,
-    port: process.env.REDIS_PORT
-  },
-  password: process.env.REDIS_PASSWORD
-} : {}
+const config = useRemote ? { url: process.env.PROD_DATABASE_REDIS_URL } : {}
 
 // connect to client
 export const redis = await createClient(config)
