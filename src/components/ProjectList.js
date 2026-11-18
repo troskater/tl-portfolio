@@ -6,7 +6,7 @@ export default async function ProjectList(params) {
 
   return (<section className="project-list">
     {
-      projects && projects.length > 0 ? projects.reverse().map((project) => (<ProjectItem key={project._entityId} project={project} />)) : 'No results found.'
+      projects && projects.length > 0 ? projects.map((project) => (<ProjectItem key={project._entityId} project={project} />)) : 'No results found.'
     }
   </section>);
 }

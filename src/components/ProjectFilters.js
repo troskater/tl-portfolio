@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { useCallback, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const frameworks = [
@@ -23,6 +23,7 @@ export default function ProjectFilters() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [showFilters, setShowFilters] = useState(false)
+  const searchTimer = useRef(null)
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
@@ -38,16 +39,19 @@ export default function ProjectFilters() {
 
   return (<>
     <section className="search-bar">
-      <FontAwesomeIcon icon={faFilter} onClick={() => setShowFilters(!showFilters)} title="Filters" />
-      <input onChange={e =>
-        router.replace(pathname + '?' + createQueryString('title', e.target.value))
-      } type="text" placeholder="Search projects.." />
+      <FontAwesomeIcon icon={faFilter} onClick={() => setShowFilters(!showFilters)} title="Filters" titleId="filters-title" />
+      {/* wait for a pause in typing, each change is a server render and a Redis query */}
+      <input defaultValue={searchParams.get('title') ?? ''} onChange={e => {
+        const value = e.target.value
+        clearTimeout(searchTimer.current)
+        searchTimer.current = setTimeout(() => router.replace(pathname + '?' + createQueryString('title', value)), 300)
+      }} type="text" placeholder="Search projects.." />
     </section>
     <section className="filters" style={{ height: (showFilters ? '50px' : '0') }}>
-      <select onChange={e => {
+      <select defaultValue={searchParams.get('sort') ?? ''} onChange={e => {
         router.replace(pathname + '?' + createQueryString('sort', e.target.value))
       }}>
-        <option value="sort_order,ASC">Default</option>
+        <option value="">Default</option>
         <option value="year,DESC">Most Recent</option>
         <option value="year,ASC">Oldest</option>
       </select>

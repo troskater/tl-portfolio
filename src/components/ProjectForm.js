@@ -6,6 +6,7 @@ import { Input } from "./Input";
 import { useState } from "react";
 import { parseFormDataArrays } from "@/lib/helpers";
 import { InputFields } from "@/lib/InputFields";
+import { addProject } from "@/app/add-project/actions";
 
 // get InputFields object
 const fields = new InputFields('project')
@@ -24,6 +25,7 @@ export default function ProjectForm() {
     // format data
     formData.enabled = Boolean(formData.enabled)
     if (formData.year) formData.year = Number(formData.year)
+    if (formData.sort_order) formData.sort_order = Number(formData.sort_order)
     if (formData.images && formData.images.length > 0) {
       formData.images.map((v, k) => {
         formData.images[k]['sort_order'] = Number(v.sort_order)
@@ -34,18 +36,8 @@ export default function ProjectForm() {
 
     // console.log(formData);
 
-    // post to api
-    const res = await fetch('/api/projects/new', {
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
-
-    // get result
-    await res.json();
-    // console.log(result)
+    // save
+    await addProject(formData)
   };
   // console.log(fields)
 
