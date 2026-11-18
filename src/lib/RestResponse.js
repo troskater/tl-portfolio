@@ -66,6 +66,11 @@ export class RestResponse {
   }
 
   static async save(request, params) {
+    // writes are dev-only, matching the add-project page (previews run as production too)
+    if (process.env.NODE_ENV !== 'development') {
+      return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+    }
+
     // init
     const table = RestResponse.#getTableFromRequest(request)
 
